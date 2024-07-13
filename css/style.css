@@ -2,7 +2,7 @@
 :root {
     --primary: #F4F7FE;
     --secondary: #E6F1FC;
-    --light: #1363C6;
+    --light: #ffffff;
     --dark: #F9FAFF;
 }
 
@@ -217,7 +217,7 @@ h6,
 .service-item {
     position: relative;
     padding: 45px 30px;
-    background: #1363C6;
+    background: #ffffff;
     transition: .5s;
 }
 
@@ -235,7 +235,7 @@ h6,
 }
 
 .service-item:hover .service-icon {
-    background: #1363C6;
+    background: #fcfeff;
 }
 
 .service-item h5,
@@ -245,7 +245,7 @@ h6,
 
 .service-item:hover h5,
 .service-item:hover p {
-    color: #1363C6;
+    color: #fafbfc;
 }
 
 .service-item a.btn {
@@ -339,7 +339,7 @@ h6,
 .case-overlay small {
     display: inline-block;
     padding: 3px 15px;
-    color: #1363C6;
+    color: #eceef1;
     background: rgba(244, 247, 254, .7);
     border-radius: 25px;
     margin-bottom: 15px;
@@ -347,8 +347,8 @@ h6,
 
 .case-overlay span.btn:hover {
     color: var(--primary);
-    background: #1363C6;
-    border-color: #1363C6;
+    background: #fafcfd;
+    border-color: #f2f3f5;
 }
 
 /*** FAQs ***/
@@ -363,7 +363,7 @@ h6,
 }
 
 .accordion .accordion-button:not(.collapsed) {
-    color: #1363C6;
+    color: #ffffff;
     background: var(--primary);
     box-shadow: none;
 }
@@ -401,7 +401,7 @@ h6,
     align-items: center;
     justify-content: center;
     color: var(--primary);
-    background: #1363C6;
+    background: #f0f1f2;
     border: 1px solid var(--primary);
     border-radius: 40px;
     font-size: 18px;
@@ -411,7 +411,7 @@ h6,
 .testimonial-carousel .owl-nav .owl-prev:hover,
 .testimonial-carousel .owl-nav .owl-next:hover {
     background: var(--primary);
-    color: #1363C6;
+    color: #fafbfc;
 }
 
 .testimonial-carousel .owl-dots {
@@ -425,7 +425,7 @@ h6,
     margin-right: 10px;
     width: 15px;
     height: 15px;
-    background: #1363C6;
+    background: #eff0f1;
     border: 1px solid var(--primary);
     border-radius: 15px;
     transition: .5s;
@@ -481,7 +481,7 @@ h6,
 }
 
 .footer .btn.btn-link:hover {
-    color: #1363C6;
+    color: #f2f3f5;
 }
 
 .footer .btn.btn-link::before {
@@ -508,7 +508,7 @@ h6,
 }
 
 .footer .copyright a:hover {
-    color: #1363C6;
+    color: #f0f2f5;
 }
 
 .footer .footer-menu a {
