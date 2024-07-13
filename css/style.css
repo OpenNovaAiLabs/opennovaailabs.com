@@ -1,8 +1,8 @@
 /********** Template CSS **********/
 :root {
-    --primary: #ffffff;
+    --primary: #1363C6;
     --secondary: #15ACE1;
-    --light: #1363C6;
+    --light: #F4F7FE;
     --dark: #14183E;
 }
 
@@ -194,7 +194,7 @@ h6,
     height: 10px;
     top: 2px;
     left: 0;
-    background: rgba(33, 66, 177, .5);
+    background: rgb(251, 251, 251);
 }
 
 .section-title h6::after {
