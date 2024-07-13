@@ -217,7 +217,7 @@ h6,
 .service-item {
     position: relative;
     padding: 45px 30px;
-    background: #1363C6;
+    background: #f6f6f6;
     transition: .5s;
 }
 
@@ -235,7 +235,7 @@ h6,
 }
 
 .service-item:hover .service-icon {
-    background: #1363C6;
+    background: #ffffff;
 }
 
 .service-item h5,
@@ -245,7 +245,7 @@ h6,
 
 .service-item:hover h5,
 .service-item:hover p {
-    color: #1363C6;
+    color: #ffffff;
 }
 
 .service-item a.btn {
