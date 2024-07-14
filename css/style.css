@@ -3,7 +3,7 @@
     --primary: #F4F7FE;
     --secondary: #E6F1FC;
     --light: #ffffff;
-    --dark: #F9FAFF;
+    --dark: #ffffff;
 }
 
 /*** Spinner ***/
@@ -89,13 +89,13 @@ h6,
 .navbar .navbar-nav .nav-link {
     margin-right: 35px;
     padding: 0;
-    color: rgba(20, 24, 62, .7);
+    color: rgb(255, 255, 255);
     outline: none;
 }
 
 .navbar .navbar-nav .nav-link:hover,
 .navbar .navbar-nav .nav-link.active {
-    color: rgba(20, 24, 62, 1);
+    color: rgb(255, 255, 255);
 }
 
 .navbar .dropdown-toggle::after {
@@ -460,7 +460,7 @@ h6,
     display: flex;
     align-items: center;
     justify-content: center;
-    color: rgba(20, 24, 62, .5);
+    color: rgba(255, 255, 255, 0.966);
     border: 1px solid rgba(20, 24, 62, .1);
     border-radius: 40px;
     transition: .3s;
@@ -475,7 +475,7 @@ h6,
     margin-bottom: 10px;
     padding: 0;
     text-align: left;
-    color: rgba(20, 24, 62, .5);
+    color: rgb(255, 255, 255);
     font-weight: normal;
     transition: .3s;
 }
@@ -504,7 +504,7 @@ h6,
 }
 
 .footer .copyright a {
-    color: rgba(20, 24, 62, .5);
+    color: rgba(255, 255, 255);
 }
 
 .footer .copyright a:hover {
