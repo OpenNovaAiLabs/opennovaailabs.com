@@ -1,173 +1,66 @@
+from flask import Flask, request, jsonify
+from keras.models import model_from_json
+import numpy as np
 import cv2
 import mediapipe as mp
-import numpy as np
-import tkinter as tk
-from PIL import Image, ImageTk
-from keras.models import model_from_json
-import time
 from spellchecker import SpellChecker
-from tkinter import StringVar
+import pickle
 
+app = Flask(__name__)
 spell = SpellChecker()
 
-with open("model/mediapipe_cnn_asl.json", "r") as json_file:
-  model_json = json_file.read()
+# Load the ASL recognition model from pickle
+with open("model/cnn_model.p", "rb") as file:
+    model_dict = pickle.load(file)
+model = model_dict['model']
 
-model = model_from_json(model_json)
-model.load_weights("model/mediapipe_cnn_asl_weights.h5")
-
-cap = cv2.VideoCapture(0)
-
+# Initialize MediaPipe Hands
 mp_hands = mp.solutions.hands
-mp_drawing = mp.solutions.drawing_utils
-mp_drawing_styles = mp.solutions.drawing_styles
 hands = mp_hands.Hands(static_image_mode=True, min_detection_confidence=0.3)
 
+# Label dictionary
 labels_dict = {0: 'A', 1: 'B', 2: 'C', 3: 'D', 4: 'E', 5: 'F', 6: 'G', 7: 'H', 8: 'I', 9: 'J', 10: 'K', 11: 'L',
                12: 'M', 13: 'N', 14: 'O', 15: 'P', 16: 'Q', 17: 'R', 18: 'S', 19: 'T', 20: 'U', 21: 'V', 22: 'W',
                23: 'X', 24: 'Y', 25: 'Z', 26: 'space'}
 
-root = tk.Tk()
-root.title("James's - ASL Alphabet Recognition")
-
-frame_label = tk.Label(root)
-frame_label.pack()
-
-character_label = tk.Label(root, text="Predicted Character: ")
-character_label.pack()
-
-sentence_label = tk.Label(root, text="Predicted Sentence: ")
-sentence_label.pack()
-
-current_word_entry = tk.Entry(root)
-current_word_entry.pack()
-
-suggestions_label = tk.Label(root, text="Suggestions:")
-suggestions_label.pack()
-
-suggestion_text = StringVar()
-suggestion_display = tk.Label(root, textvariable=suggestion_text)
-suggestion_display.pack()
-
-current_word = ''
-predicted_sentence = ''
-new_character_detected = False
-start_time = None
-
-
-def suggest_words(current_word):
-  corrected_word = spell.correction(current_word)
-  if corrected_word is not None:
-    suggestions = spell.candidates(corrected_word)
-    if not suggestions:
-      suggestion_text.set("No suggestions available")
-    else:
-      suggestion_text.set(', '.join(suggestions))
-  else:
-    suggestion_text.set("No suggestions available")
-
-def on_character_predicted(predicted_character):
-  current_word = current_word_entry.get()
-  current_word += predicted_character
-  current_word_entry.delete(0, tk.END)
-  current_word_entry.insert(0, current_word)
-  suggest_words(current_word)
-
-def clear_last_character():
-  global current_word
-  if len(current_word) > 0:
-    current_word = current_word[:-1]
-    current_word_entry.delete(0, tk.END)
-    current_word_entry.insert(0, current_word)
-    suggest_words(current_word)
-
-clear_button = tk.Button(root, text="Clear Last Character", command=clear_last_character)
-clear_button.pack()
-
-def update_frame():
-  global current_word, predicted_sentence,  new_character_detected, start_time
-
-  ret, frame = cap.read()
-
-  frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-
-  results = hands.process(frame_rgb)
-  no_hands_detected = not results.multi_hand_landmarks
-  import pickle
-  model_dict = pickle.load(open('model/cnn_model.p', 'rb'))
-  model = model_dict['model']#if no hands
-  if no_hands_detected:
-    predicted_character = 'NO HANDS'
-    new_character_detected = False
-    start_time = None
-  else:
-    if start_time is None:
-      start_time = time.time()
+def predict_character(image):
+    frame_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    results = hands.process(frame_rgb)
+    if not results.multi_hand_landmarks:
+        return 'NO HANDS'
+    
     for hand_landmarks in results.multi_hand_landmarks:
-      mp_drawing.draw_landmarks(
-        frame,  # image to draw
-        hand_landmarks,  # model output
-        mp_hands.HAND_CONNECTIONS,  # hand connections
-        mp_drawing_styles.get_default_hand_landmarks_style(),
-        mp_drawing_styles.get_default_hand_connections_style())
+        x_ = []
+        y_ = []
+        data_aux = []
 
-      x_ = []
-      y_ = []
-      data_aux = []
+        for i in range(len(hand_landmarks.landmark)):
+            x = hand_landmarks.landmark[i].x
+            y = hand_landmarks.landmark[i].y
 
-      for i in range(len(hand_landmarks.landmark)):
-        x = hand_landmarks.landmark[i].x
-        y = hand_landmarks.landmark[i].y
+            x_.append(x)
+            y_.append(y)
 
-        x_.append(x)
-        y_.append(y)
+        for i in range(len(hand_landmarks.landmark)):
+            x = hand_landmarks.landmark[i].x
+            y = hand_landmarks.landmark[i].y
+            data_aux.append(x - min(x_))
+            data_aux.append(y - min(y_))
 
-      for i in range(len(hand_landmarks.landmark)):
-        x = hand_landmarks.landmark[i].x
-        y = hand_landmarks.landmark[i].y
-        data_aux.append(x - min(x_))
-        data_aux.append(y - min(y_))
+        prediction = model.predict([np.asarray(data_aux)])
+        predicted_character = labels_dict[int(prediction[0])]
+        return predicted_character
 
-      x1 = int(min(x_) * frame.shape[1]) - 10
-      y1 = int(min(y_) * frame.shape[0]) - 10
+@app.route('/predict', methods=['POST'])
+def predict():
+    if 'image' not in request.files:
+        return jsonify({'error': 'No image provided'}), 400
 
-      x2 = int(max(x_) * frame.shape[1]) - 10
-      y2 = int(max(y_) * frame.shape[0]) - 10
+    file = request.files['image']
+    image = cv2.imdecode(np.frombuffer(file.read(), np.uint8), cv2.IMREAD_COLOR)
+    
+    predicted_character = predict_character(image)
+    return jsonify({'predicted_character': predicted_character})
 
-      prediction = model.predict([np.asarray(data_aux)])
-
-      predicted_character = labels_dict[int(prediction[0])]
-
-      cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 0), 4)
-      cv2.putText(frame, predicted_character, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 1.3, (0, 0, 0), 3,
-                  cv2.LINE_AA)
-
-  character_label.config(text="Predicted Character: " + predicted_character)
-
-  if predicted_character != 'NO HANDS' and not new_character_detected and start_time is not None:
-    elapsed_time = time.time() - start_time
-    if elapsed_time > 2.0:
-      if predicted_character == 'space':
-        current_word+=' '
-        new_character_detected = True
-        start_time = None
-      else:
-        current_word += predicted_character
-        new_character_detected = True
-        start_time = None
-
-  sentence_label.config(text="Possible word: " + predicted_sentence + current_word)
-  suggest_words(current_word)
-
-
-  img = ImageTk.PhotoImage(image=Image.fromarray(frame))
-  frame_label.img = img
-  frame_label.config(image=img)
-  frame_label.after(10, update_frame)
-
-
-update_frame()
-root.mainloop()
-
-cap.release()
-cv2.destroyAllWindows()
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=3000)
