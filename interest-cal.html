@@ -46,15 +46,15 @@
         }
     </script>
 </head>
-<body>
-    <h1>Interest Calculator</h1>
+<body class="index-page">
+    <h1 id="header" class="header d-flex align-items-center sticky-top">Interest Calculator</h1>
     <label for="amount">Amount:</label>
     <input type="text" id="amount"><br>
     <label for="rate">Rate:</label>
     <input type="text" id="rate"><br>
     <label for="months">Months:</label>
     <input type="text" id="months"><br>
-    <button onclick="calculateInterest()">Calculate</button>
+    <button onclick="calculateInterest()" class="btn-get-started">Calculate</button>
     <p id="result"></p>
 </body>
 </html>
