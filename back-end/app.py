@@ -21,5 +21,5 @@ def calculate_interest():
     except ValueError:
         return jsonify({"error": "Invalid input"}), 400
 
-if __name__ == '__main__':
-    app.run(debug=True)
+# Gunicorn will use this to find the application
+# Make sure your app object is named `app`
