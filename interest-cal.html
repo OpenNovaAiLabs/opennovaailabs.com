@@ -40,7 +40,7 @@
             if (timeUnit === 'years') {
                 months = timeValue * 12;
             } else if (timeUnit === 'days') {
-                months = timeValue * (12 / 365); // Assuming an average of 30 days per month
+                months = timeValue * 30; // Assuming an average of 30 days per month
             } else if (timeUnit === 'months') {
                 months = timeValue;
             } else {
@@ -127,27 +127,19 @@
         <div class="row gy-4">
           <div class="col-lg-6 order-2 order-lg-1 d-flex flex-column justify-content-center">
             <p style="margin-bottom: 2px;"><span style="color: #0CC0DF; font-size: small";>Open</span> <span style="color: #7700EE; font-size: small; ">Source alterna</span><span style="color: #d567d1; font-size: small;">tives to popular </span><span style="color: #F507AB; font-size: small;">SaaS products</span></p>
-            <h1 style="margin-top: 2px;">Empower Your Business</h1><h1> With AI.</h1>
-            <p style="font-size: medium;">We are team of talented developers making <span style="color: #0CC0DF;">free AI tools</span> for everyone. </p>
+            <h1 style="margin-top: 2px;">Interest Calculator</h1>
+            <p style="font-size: medium;">If I kept <label for="amount" style="margin-right: auto; margin-bottom: 2px;"></label><input type="text" id="amount"><br> <span style="color: #0CC0DF;">in my savings account paying <label for="rate" style="margin-right: auto; margin-bottom: 2px;"></label><input type="text" id="rate"><label for="months" style="margin-right: auto; margin-bottom: 2px;"></label><input type="text" id="months"><select id="timeUnit">
+              <option value="months">Months</option>
+              <option value="years">Years</option>
+              <option value="days">Days</option>
+            </select></span> for everyone. </p>
             <div class="d-flex">
               <a href="#about" class="btn-get-started">Enquire Now</a> &nbsp;&nbsp;&nbsp;
               <a href="" class="btn-get-started">Explore Free Tools</a>
             </div>
           </div>
           <div class="col-lg-6 order-1 order-lg-2 hero-img">
-            <h1 id="header" class="header d-flex align-items-center sticky-top">Interest Calculator</h1>
-            <label for="amount" style="margin-right: auto; margin-bottom: 2px;">Amount:</label>&ensp;
-            <input type="text" id="amount"><br>
-            <label for="rate" style="margin-right: auto; margin-bottom: 2px;">Rate:</label>&ensp;
-            <input type="text" id="rate"><br>
-            <label for="months" style="margin-right: auto; margin-bottom: 2px;">Months:</label>&ensp;
-            <input type="text" id="months">
-            <select id="timeUnit">
-              <option value="months">Months</option>
-              <option value="years">Years</option>
-              <option value="days">Days</option>
-            </select><br>
-            <h1></h1>
+            
             <button onclick="calculateInterest()" class="btn-get-started" style="margin-top: 10px;">Calculate</button>
             <p id="result"></p>
           </div>
