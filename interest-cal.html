@@ -10,7 +10,13 @@
             const rate = document.getElementById('rate').value;
             const months = document.getElementById('months').value;
 
-            fetch(`https://financeinterestcalculator-80f194934066.herokuapp.com/api/calculate-interest?amount=${amount}&rate=${rate}&months=${months}`)
+            // Construct the URL with query parameters
+            const url = new URL('https://financeinterestcalculator-80f194934066.herokuapp.com/api/calculate-interest');
+            url.searchParams.append('amount', amount);
+            url.searchParams.append('rate', rate);
+            url.searchParams.append('months', months);
+
+            fetch(url)
                 .then(response => response.json())
                 .then(data => {
                     if (data.error) {
