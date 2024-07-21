@@ -54,40 +54,6 @@
                 });
         }
     </script>
-    <script>
-      function multiplyBy12() {
-          // Get the value from the input field
-          var inputValue = document.getElementById('months').value;
-          
-          // Check if the input value is a number and not empty
-          if (!isNaN(inputValue) && inputValue.trim() !== '') {
-              // Convert the input value to a number and multiply by 12
-              var result = parseFloat(inputValue) * 12;
-              
-              // Display the result
-              document.getElementById('result').textContent = 'Result: ' + result;
-          } else {
-              document.getElementById('result').textContent = 'Please enter a valid number.';
-          }
-      }
-  </script>
-  <script>
-    function divideby30() {
-        // Get the value from the input field
-        var inputValue = document.getElementById('months').value;
-        
-        // Check if the input value is a number and not empty
-        if (!isNaN(inputValue) && inputValue.trim() !== '') {
-            // Convert the input value to a number and multiply by 12
-            var result = parseFloat(inputValue) / 30;
-            
-            // Display the result
-            document.getElementById('result').textContent = 'Result: ' + result;
-        } else {
-            document.getElementById('result').textContent = 'Please enter a valid number.';
-        }
-    }
-</script>
 
 </head>
 
@@ -159,21 +125,13 @@
             <input type="text" id="amount"><br>
             <label for="rate" style="margin-right: auto; margin-bottom: 2px;">Rate:</label>&ensp;
             <input type="text" id="rate"><br>
+            <label for="months" style="margin-right: auto; margin-bottom: 2px;">Months:</label>&ensp;
+            <input type="text" id="months">
             <select id="timeUnit">
-              <option value="Month">Months
-                <label for="months" style="margin-right: auto; margin-bottom: 2px;">Months:</label>&ensp;
-                <input type="text" id="months">
-              </option>
-              <option value="years">Years
-                <label for="months" style="margin-right: auto; margin-bottom: 2px;">Months:</label>&ensp;
-                <input type="text" id="months" oninput="multiplyBy12()">
-              </option>
-              <option value="days">Days
-                <label for="months" style="margin-right: auto; margin-bottom: 2px;">Months:</label>&ensp;
-                <input type="text" id="months" oninput="divideby30()">
-              </option>
-            </select>
-            <br>
+              <option value="months">Months</option>
+              <option value="years">Years</option>
+              <option value="days">Days</option>
+            </select><br>
             <h1></h1>
             <button onclick="calculateInterest()" class="btn-get-started" style="margin-top: 10px;">Calculate</button>
             <p id="result"></p>
