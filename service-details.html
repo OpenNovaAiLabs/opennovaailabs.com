@@ -34,6 +34,34 @@
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
+  <title>Interest Calculator</title>
+    <script>
+        function calculateInterest() {
+            const amount = document.getElementById('amount').value;
+            const rate = document.getElementById('rate').value;
+            const months = document.getElementById('months').value;
+
+            // Construct the URL with query parameters
+            const url = new URL('https://financeinterestcalculator-80f194934066.herokuapp.com/api/calculate-interest');
+            url.searchParams.append('amount', amount);
+            url.searchParams.append('rate', rate);
+            url.searchParams.append('months', months);
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        document.getElementById('result').innerText = `Error: ${data.error}`;
+                    } else {
+                        document.getElementById('result').innerText = `Interest: ${data.interest}`;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('result').innerText = 'An error occurred';
+                });
+        }
+    </script>
 </head>
 
 <body class="service-details-page">
@@ -93,10 +121,20 @@
           </ol>
         </nav>
         <h1>Service Details</h1>
+        
       </div>
     </div><!-- End Page Title -->
 
     <!-- Service Details Section -->
+    <h1 id="header" class="header d-flex align-items-center sticky-top">Interest Calculator</h1>
+    <label for="amount">Amount:</label>
+    <input type="text" id="amount"><br>
+    <label for="rate">Rate:</label>
+    <input type="text" id="rate"><br>
+    <label for="months">Months:</label>
+    <input type="text" id="months"><br>
+    <button onclick="calculateInterest()" class="btn-get-started">Calculate</button>
+    <p id="result"></p>
     <section id="service-details" class="service-details section">
 
       <div class="container">
