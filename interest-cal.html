@@ -31,7 +31,22 @@
         function calculateInterest() {
             const amount = document.getElementById('amount').value;
             const rate = document.getElementById('rate').value;
-            const months = document.getElementById('months').value;
+            const timeValue = document.getElementById('months').value;
+            const timeUnit = document.getElementById('timeUnit').value;
+
+            let months;
+
+            // Convert the time value to months based on the selected time unit
+            if (timeUnit === 'years') {
+                months = timeValue * 12;
+            } else if (timeUnit === 'days') {
+                months = timeValue / 30; // Assuming an average of 30 days per month
+            } else if (timeUnit === 'months') {
+                months = timeValue;
+            } else {
+                document.getElementById('result').innerText = 'Invalid time unit';
+                return;
+            }
 
             // Construct the URL with query parameters
             const url = new URL('https://financeinterestcalculator-80f194934066.herokuapp.com/api/calculate-interest');
